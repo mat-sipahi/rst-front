@@ -1,55 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
-import { Button, Form, Input, Select } from 'antd';
-import React, {useEffect,useState} from 'react';
+import React, { useState } from "react";
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
+const App = () => {
+  const [result, setResult] = useState("");
+  const [text, setText] = useState("");
 
-
-
-function App() {
-  const fetchData = async () => {
-    const response = await fetch(`http://127.0.0.1:3000`)
-    const newData = await response.json()
-    console.log(newData)
-    //this.setState(prevState => ({ rst_text: [...prevState.rst_text, newData] }));
-  };
-
-  const onFinish = (values) => {
-    var txt = values.text
-    fetchData()
-    console.log(txt)
+  const handleClick = async () => {
+    try {
+      const response = await fetch("./api/dplp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 'text': text }),
+      });
+      const data = await response.text();
+      setResult(data);
+    } catch (error) {
+      setResult("Error: " + error);
+    }
   };
 
   return (
-    <div className="App">
-      <Form
-      {...layout}
-      name="control-ref"
-      onFinish={onFinish}
-      style={{ maxWidth: 600 }}
-    >
-    <Form.Item name="text" label="Text" rules={[{ required: true }]}>
-    <Input rows={4}/>
-    </Form.Item>
-    <Form.Item rules={[{ required: true }]}>
-    <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-    </Form.Item>
-    </Form>
-
-    <br />
-        <textarea
-          rows="30"
-          cols="80"
-       //   value={this.state.rst_text}
-        />
+    <div>
+      <input
+        type="text"
+        value={text}
+        onChange={(event) => setText(event.target.value)}
+        cols='80'
+      />
+      <button onClick={handleClick}>Parse with DPLP</button>
+      <br/>
+      <br />
+      <textarea value={result} readOnly cols='80' rows='10' />
     </div>
   );
-}
+};
 
 export default App;
