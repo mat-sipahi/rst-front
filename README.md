@@ -1,3 +1,24 @@
+# How to setup the reverse proxy
+Following the instructions [here](https://www.hostinger.com/tutorials/how-to-set-up-nginx-reverse-proxy/), the steps are:
+
+1- Istall nginx
+2- Disable the default virtual host
+```
+sudo unlink /etc/nginx/sites-enabled/default
+```
+3- Create the reverse proxy:
+```
+cp nginx/reverse-proxy.conf /etc/nginx/sites-available/
+```
+4- Enable the reverse proxy:
+```
+sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf
+```
+5- Restart nginx:
+```
+service nginx restart
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
