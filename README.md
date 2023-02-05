@@ -1,22 +1,25 @@
 # How to setup the reverse proxy
-Following the instructions [here](https://www.hostinger.com/tutorials/how-to-set-up-nginx-reverse-proxy/), the steps are:
+Following the instructions [here](https://blog.kronis.dev/tutorials/how-to-use-nginx-to-proxy-your-front-end-and-back-end), the steps are:
 
-1- Istall nginx
-2- Disable the default virtual host
+1- Istall nginx and start it:
+```
+sudo systemctl start nginx
+```
+
+2. Remove the default host's config:
 ```
 sudo unlink /etc/nginx/sites-enabled/default
 ```
-3- Create the reverse proxy:
+NOTE: in some systems like Manjaro, the default config is located in `/etc/nginx` (or /etc/nginx/sites-enabled/ /usr/local/nginx/conf, or /usr/local/etc/nginx)
+3- Replace it with out config *nginx/nginx.conf*:
 ```
-cp nginx/reverse-proxy.conf /etc/nginx/sites-available/
+cp nginx/nginx.conf /etc/nginx/sites-enabled/default
 ```
-4- Enable the reverse proxy:
+Note: check the installation path and backend port number.
+
+4- Restart nginx:
 ```
-sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf
-```
-5- Restart nginx:
-```
-service nginx restart
+sudo systemctl restart nginx
 ```
 
 # Getting Started with Create React App
